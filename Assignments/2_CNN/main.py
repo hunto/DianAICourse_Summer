@@ -17,7 +17,7 @@ def train(model, data, target, loss_func, optimizer):
     :param optimizer: the optimizer you use
     :return: accuracy, loss
     """
-
+    model.train()
     # initial optimizer
     optimizer.zero_grad()
 
@@ -54,6 +54,7 @@ def test(model, test_loader, loss_func, use_cuda):
     :param loss_func: loss function
     :return: accuracy, loss
     """
+    model.test()
     acc_all = 0
     loss_all = 0
     step = 0
@@ -82,7 +83,7 @@ def main():
     num_classes = 10
     eval_step = 1000
     num_epochs = 100
-    batch_size = 64
+    batch_size = 128
 
     # first check directories, if not exist, create
     dir_list = ('../data', '../data/MNIST', '../data/CIFAR-10')
@@ -153,7 +154,7 @@ def main():
             acc, loss = train(model, data, target, ce_loss, optimizer)
             if train_step % 100 == 0:
                 print('Train set: Step: {}, Loss: {:.4f}, Accuracy: {:.2f}'.format(train_step, loss, acc))
-            if train_step % 1000 == 0:
+            if train_step % eval_step == 0:
                 acc, loss = test(model, test_loader, ce_loss, use_cuda)
                 print('\nTest set: Step: {}, Loss: {:.4f}, Accuracy: {:.2f}\n'.format(train_step, loss, acc))
 
