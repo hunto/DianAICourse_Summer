@@ -2,9 +2,7 @@ import os
 import torch
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
-from models.LeNet5 import LeNet5
-from models.LeNetRGB import LeNetRGB
-from models.ResNet import ResNet
+from models.ResNet import resnet20
 from torch import optim as optim
 
 
@@ -83,7 +81,7 @@ def main():
     num_classes = 10
     eval_step = 1000
     num_epochs = 100
-    batch_size = 1
+    batch_size = 64
 
     # first check directories, if not exist, create
     dir_list = ('../data', '../data/MNIST', '../data/CIFAR-10')
@@ -108,7 +106,7 @@ def main():
         batch_size=batch_size
     )
 
-    model = ResNet(8, 29, 10, 64, 4)
+    model = resnet20()
 
     # define network
 
