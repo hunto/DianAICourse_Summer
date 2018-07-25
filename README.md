@@ -18,5 +18,5 @@ Dian团队2018暑期实习生AI培训课件 & 作业代码
   |ResNet|False|Adam|0.79|
   |ResNet|True|Adam|0.80|
   |Vgg|False|Adam|0.74|
-  |Vgg|False|Adam|0.73|
+  |Vgg|True|Adam|0.74|
 
