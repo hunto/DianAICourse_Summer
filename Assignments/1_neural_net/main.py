@@ -88,6 +88,7 @@ def main():
 
     num_epochs = 100
     batch_size = 64
+    eval_step = 1000
     cell_num = 1000  # network hidden layer cell num
 
     # first check directories, if not exist, create
@@ -151,7 +152,7 @@ def main():
             acc, loss = train(model, data, target, ce_loss, optimizer)
             if train_step % 100 == 0:
                 print('Train set: Step: {}, Loss: {:.4f}, Accuracy: {:.2f}'.format(train_step, loss, acc))
-            if train_step % 1000 == 0:
+            if train_step % eval_step == 0:
                 acc, loss = test(model, test_loader, ce_loss, use_cuda)
                 print('\nTest set: Step: {}, Loss: {:.4f}, Accuracy: {:.2f}\n'.format(train_step, loss, acc))
 
