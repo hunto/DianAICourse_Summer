@@ -84,6 +84,7 @@ def main():
     eval_step = 1000
     num_epochs = 100
     batch_size = 64
+    model_name = 'vgg' # resnet, vgg
 
     # first check directories, if not exist, create
     dir_list = ('../data', '../data/MNIST', '../data/CIFAR-10')
@@ -108,8 +109,12 @@ def main():
         batch_size=batch_size
     )
 
-    model = resnet20()
-    model = vgg11()
+    if model_name == 'resnet':
+        model = resnet20()
+    elif model_name == 'vgg':
+        model = vgg11()
+    else:
+        raise ValueError('Wrong model name!')
 
     # define network
 
