@@ -44,7 +44,7 @@ def train(model, data, target, loss_func, optimizer):
     return acc, loss
 
 
-def test(model, test_loader, loss_func):
+def test(model, test_loader, loss_func, use_cuda):
     """
     use a test set to test model
     NOTE: test step will not change network weights, so we don't use backward and optimizer
@@ -58,6 +58,9 @@ def test(model, test_loader, loss_func):
     step = 0
     for data, target in test_loader:
         step += 1
+        if use_cuda:
+            data = data.cuda()
+            target = target.cuda()
         output = model(data)
         predictions = output.max(1, keepdim=True)[1]
         correct = predictions.eq(target.view_as(predictions)).sum().item()
@@ -144,11 +147,12 @@ def main():
             train_step += 1
             if use_cuda:
                 data = data.cuda()
+                target = target.cuda()
             acc, loss = train(model, data, target, ce_loss, optimizer)
             if train_step % 100 == 0:
                 print('Train set: Step: {}, Loss: {:.4f}, Accuracy: {:.2f}'.format(train_step, loss, acc))
             if train_step % 1000 == 0:
-                acc, loss = test(model, test_loader, ce_loss)
+                acc, loss = test(model, test_loader, ce_loss, use_cuda)
                 print('\nTest set: Step: {}, Loss: {:.4f}, Accuracy: {:.2f}\n'.format(train_step, loss, acc))
 
 
