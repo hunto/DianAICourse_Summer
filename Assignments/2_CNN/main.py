@@ -57,18 +57,19 @@ def test(model, test_loader, loss_func, use_cuda):
     acc_all = 0
     loss_all = 0
     step = 0
-    for data, target in test_loader:
-        step += 1
-        if use_cuda:
-            data = data.cuda()
-            target = target.cuda()
-        output = model(data)
-        predictions = output.max(1, keepdim=True)[1]
-        correct = predictions.eq(target.view_as(predictions)).sum().item()
-        acc = correct / len(target)
-        loss = loss_func(output, target)
-        acc_all += acc
-        loss_all += loss
+    with torch.no_grad():
+        for data, target in test_loader:
+            step += 1
+            if use_cuda:
+                data = data.cuda()
+                target = target.cuda()
+            output = model(data)
+            predictions = output.max(1, keepdim=True)[1]
+            correct = predictions.eq(target.view_as(predictions)).sum().item()
+            acc = correct / len(target)
+            loss = loss_func(output, target)
+            acc_all += acc
+            loss_all += loss
     return acc_all / step, loss_all / step
 
 
