@@ -47,18 +47,18 @@ class ResNeXtBottleneck(nn.Module):
         return F.relu(residual + bottleneck, inplace=True)
 
 
-class CifarResNeXt(nn.Module):
+class ResNet(nn.Module):
 
     def __init__(self, cardinality, depth, nlabels, base_width, widen_factor=4):
         """
-        
+
         :param cardinality: number of convolution groups.
         :param depth: number of layers.
         :param nlabels: number of classes
         :param base_width: base number of channels in each group.
         :param widen_factor: factor to adjust the channel dimensionality
         """
-        super(CifarResNeXt, self).__init__()
+        super(ResNet, self).__init__()
         self.cardinality = cardinality
         self.depth = depth
         self.block_depth = (self.depth - 2) // 9
