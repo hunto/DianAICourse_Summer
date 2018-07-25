@@ -54,7 +54,7 @@ def test(model, test_loader, loss_func, use_cuda):
     :param loss_func: loss function
     :return: accuracy, loss
     """
-    model.test()
+    model.eval()
     acc_all = 0
     loss_all = 0
     step = 0
