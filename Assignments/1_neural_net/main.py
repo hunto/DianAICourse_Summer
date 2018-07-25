@@ -83,6 +83,7 @@ def main():
     else:
         raise ValueError('Wrong data set type!')
 
+    num_epochs = 100
     batch_size = 64
     cell_num = 1000  # network hidden layer cell num
 
@@ -138,7 +139,7 @@ def main():
 
     # start train
     train_step = 0
-    for eopch in range(1, 101):
+    for _ in range(num_epochs):
         for data, target in train_loader:
             train_step += 1
             if use_cuda:
