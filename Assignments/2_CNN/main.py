@@ -3,7 +3,6 @@ import torch
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from models.LeNet5 import LeNet5
-from models.LeNetRGB import LeNetRGB
 from torch import optim as optim
 
 
@@ -126,9 +125,9 @@ def main():
         raise ValueError('Wrong data set type!')
 
     if dataset_type == 'mnist':
-        model = LeNet5(image_size, num_classes)
+        model = LeNet5(image_size, num_classes, 1)
     elif dataset_type == 'cifar10':
-        model = LeNetRGB(image_size, num_classes)
+        model = LeNet5(image_size, num_classes, 3)
     else:
         raise ValueError('Wrong data set type!')
 
