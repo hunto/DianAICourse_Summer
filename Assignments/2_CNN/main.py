@@ -3,6 +3,7 @@ import torch
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from models.LeNet5 import LeNet5
+from models.LeNetRGB import LeNetRGB
 from torch import optim as optim
 
 
@@ -74,9 +75,10 @@ def main():
     """
 
     # define some hyper parameters
-    dataset_type = 'mnist' # or mnist
+    dataset_type = 'cifar10' # cifar10 or mnist
     num_classes = 10
-
+    eval_step = 1000
+    num_epochs = 100
     batch_size = 64
 
     # first check directories, if not exist, create
@@ -89,6 +91,7 @@ def main():
     use_cuda = torch.cuda.is_available()
     # this step will create train_loader and  test_loader
     if dataset_type == 'mnist':
+        image_size = 28
         train_loader = DataLoader(
             datasets.MNIST(root='../data/MNIST', train=True, download=True,
                            transform=transforms.Compose([transforms.ToTensor()])),
@@ -102,6 +105,7 @@ def main():
             batch_size=batch_size
         )
     elif dataset_type == 'cifar10':
+        image_size = 32
         train_loader = DataLoader(
             datasets.CIFAR10(root='../data/CIFAR-10', train=True, download=True,
                              transform=transforms.Compose([transforms.ToTensor()])),
@@ -117,8 +121,14 @@ def main():
     else:
         raise ValueError('Wrong data set type!')
 
+    if dataset_type == 'mnist':
+        model = LeNet5(image_size, num_classes)
+    elif dataset_type == 'cifar10':
+        model = LeNetRGB(image_size, num_classes)
+    else:
+        raise ValueError('Wrong data set type!')
+
     # define network
-    model = LeNet5()
 
     if use_cuda:
         model = model.cuda()
@@ -131,7 +141,7 @@ def main():
 
     # start train
     train_step = 0
-    for eopch in range(1, 101):
+    for _ in range(num_epochs):
         for data, target in train_loader:
             train_step += 1
             if use_cuda:
