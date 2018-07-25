@@ -3,6 +3,7 @@ import torch
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 from models.ResNet import resnet20
+from models.vgg import vgg11
 from torch import optim as optim
 
 
@@ -108,6 +109,7 @@ def main():
     )
 
     model = resnet20()
+    model = vgg11()
 
     # define network
 
